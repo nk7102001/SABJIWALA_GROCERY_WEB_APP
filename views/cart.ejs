@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<%- include('partials/navbar') %>
+
+<div class="page-header">
+  <div class="container">
+    <h1>🛒 My Cart <% if(cart.length > 0){ %><span style="font-size:1.2rem; font-weight:600; color:var(--gray);">(<%= cart.reduce((s,i)=>s+i.quantity,0) %> items)</span><% } %></h1>
+  </div>
+</div>
+
+<section style="background:var(--light); padding:40px 0; min-height:60vh;">
+  <div class="container">
+    <% if (cart.length === 0) { %>
+    <div class="empty-state">
+      <div class="empty-state-icon">🛒</div>
+      <h3>Your cart is empty!</h3>
+      <p>Looks like you haven't added any items yet.</p>
+      <a href="/products" class="btn-primary-green">Start Shopping</a>
+    </div>
+    <% } else { %>
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="cart-items-container">
+          <% if (subtotal < 500) { %>
+          <div class="free-delivery-banner">
+            🚚 Add ₹<%= 500 - subtotal %> more for FREE delivery!
+          </div>
+          <% } else { %>
+          <div class="free-delivery-banner" style="background:var(--primary-pale); border-color:var(--primary);">
+            🎉 You've unlocked FREE delivery!
+          </div>
+          <% } %>
+
+          <% cart.forEach(item => { %>
+          <div class="cart-item" id="cart-row-<%= item.productId %>">
+            <img src="<%= item.image %>" alt="<%= item.name %>" class="cart-item-img">
+            <div class="cart-item-details">
+              <div class="cart-item-name"><%= item.name %></div>
+              <div style="color:var(--gray); font-size:0.85rem; font-weight:500;">per <%= item.unit %></div>
+              <div class="cart-item-price">₹<%= item.price %> each</div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:10px;">
+              <div class="qty-control">
+                <button class="qty-btn cart-qty-minus" data-pid="<%= item.productId %>">−</button>
+                <span id="cart-qty-<%= item.productId %>" style="padding:4px 12px; font-weight:700; font-size:0.95rem;"><%= item.quantity %></span>
+                <button class="qty-btn cart-qty-plus" data-pid="<%= item.productId %>">+</button>
+              </div>
+              <div id="cart-item-total-<%= item.productId %>" style="font-weight:800; color:var(--primary-dark); font-size:1.05rem;">
+                ₹<%= (item.price * item.quantity).toFixed(0) %>
+              </div>
+              <button class="cart-remove-btn" data-pid="<%= item.productId %>" style="background:none; border:1.5px solid #fde8e8; color:var(--danger); padding:4px 12px; border-radius:20px; font-size:0.82rem; font-weight:700; cursor:pointer; transition:var(--transition);">
+                <i class="bi bi-trash3"></i> Remove
+              </button>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+
+      <div class="col-lg-4 cart-summary-section">
+        <div class="order-summary-card">
+          <h5 style="font-weight:800; font-family:var(--font-display); margin-bottom:20px;">Order Summary</h5>
+          <div class="order-summary-row">
+            <span>Subtotal</span>
+            <span id="cart-subtotal">₹<%= subtotal.toFixed(0) %></span>
+          </div>
+          <div class="order-summary-row">
+            <span>Delivery</span>
+            <span id="cart-delivery"><%= deliveryCharge === 0 ? 'FREE' : '₹' + deliveryCharge %></span>
+          </div>
+          <div class="order-summary-row total">
+            <span>Total</span>
+            <span id="cart-total">₹<%= total.toFixed(0) %></span>
+          </div>
+          <a href="/orders/checkout" class="btn-primary-green w-100 mt-3" style="justify-content:center; padding:14px; font-size:1rem;">
+            Proceed to Checkout <i class="bi bi-arrow-right"></i>
+          </a>
+          <a href="/products" class="btn-outline-green w-100 mt-2" style="justify-content:center; padding:12px; font-size:0.9rem;">
+            <i class="bi bi-arrow-left"></i> Continue Shopping
+          </a>
+          <div style="margin-top:16px; text-align:center; font-size:0.8rem; color:var(--gray);">
+            🔒 Secure Checkout · 💚 Fresh Guarantee
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>

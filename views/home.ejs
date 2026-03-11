@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<%- include('partials/navbar') %>
+
+<!-- HERO SECTION -->
+<section class="hero-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <div style="animation: fadeInUp 0.6s ease both;">
+          <div class="hero-badge mb-3" style="display:inline-flex; background:white; border:1.5px solid var(--border); border-radius:25px; padding:6px 16px; font-size:0.85rem; font-weight:700; color:var(--primary-dark);">
+            🚀 Delivery in 30 mins!
+          </div>
+          <h1 class="hero-title">
+            Fresh <span class="highlight">Vegetables</span> &<br>
+            Groceries Delivered
+          </h1>
+          <p class="hero-subtitle">Order fresh farm produce, fruits, dairy & more. Quality guaranteed, prices you'll love.</p>
+
+          <form class="hero-search-bar" id="hero-search-form" action="/products" method="GET">
+            <input type="text" id="hero-search-input" name="search" placeholder="Search tomatoes, onions, milk...">
+            <button type="submit"><i class="bi bi-search"></i> Search</button>
+          </form>
+
+          <div class="hero-badges">
+            <div class="hero-badge"><span>🥦</span> 500+ Products</div>
+            <div class="hero-badge"><span>🚚</span> Free Delivery ₹500+</div>
+            <div class="hero-badge"><span>⭐</span> 4.9 Rated</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 mt-4 mt-lg-0">
+        <div class="hero-image-wrapper" style="animation: fadeInRight 0.7s ease both 0.2s;">
+          <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&q=80" alt="Fresh Groceries" loading="lazy">
+          <div class="hero-stat-card card-left">
+            <span class="stat-number">10K+</span>
+            Happy Customers
+          </div>
+          <div class="hero-stat-card card-right">
+            <span class="stat-number">30 min</span>
+            Avg Delivery
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES STRIP -->
+<div class="features-strip">
+  <div class="container">
+    <div class="row g-2">
+      <div class="col-6 col-md-3">
+        <div class="feature-item"><span>🥬</span> 100% Fresh Produce</div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="feature-item"><span>🚚</span> Free Delivery ₹500+</div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="feature-item"><span>💰</span> Best Prices</div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="feature-item"><span>🔄</span> Easy Returns</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CATEGORIES SECTION -->
+<section class="category-section">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h2 class="section-title">Shop by Category</h2>
+      <div class="section-divider mx-auto"></div>
+    </div>
+    <div class="row g-3">
+      <% categories.forEach(cat => { %>
+      <div class="col-6 col-md-4 col-lg-2">
+        <a href="/products?category=<%= cat.name %>" class="category-card">
+          <span class="category-icon"><%= cat.icon %></span>
+          <p class="category-name"><%= cat.name %></p>
+        </a>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED PRODUCTS -->
+<section style="background:white;">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end mb-4 flex-wrap gap-2">
+      <div>
+        <h2 class="section-title">Featured Products</h2>
+        <div class="section-divider"></div>
+      </div>
+      <a href="/products" class="btn-outline-green">View All <i class="bi bi-arrow-right"></i></a>
+    </div>
+    <% if (products.length > 0) { %>
+    <div class="row g-3">
+      <% products.forEach(product => { %>
+      <div class="col-6 col-md-4 col-lg-3">
+        <%- include('partials/product-card', { product }) %>
+      </div>
+      <% }) %>
+    </div>
+    <% } else { %>
+    <div class="empty-state">
+      <div class="empty-state-icon">🥦</div>
+      <h3>Products loading soon!</h3>
+      <p>We're stocking up our shelves with fresh produce.</p>
+    </div>
+    <% } %>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section style="background: var(--primary-pale);">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="section-title">Why Choose SABJIWALA?</h2>
+      <div class="section-divider mx-auto"></div>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div style="text-align:center; padding:28px 20px; background:white; border-radius:var(--radius); box-shadow:var(--shadow); transition:var(--transition);" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform=''">
+          <div style="font-size:3rem; margin-bottom:14px;">🌾</div>
+          <h5 style="font-weight:800; margin-bottom:8px;">Farm Fresh Daily</h5>
+          <p style="color:var(--gray); font-size:0.9rem; margin:0;">Direct from farms, delivered fresh every morning. No middlemen, maximum freshness.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div style="text-align:center; padding:28px 20px; background:white; border-radius:var(--radius); box-shadow:var(--shadow); transition:var(--transition);" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform=''">
+          <div style="font-size:3rem; margin-bottom:14px;">⚡</div>
+          <h5 style="font-weight:800; margin-bottom:8px;">Lightning Fast</h5>
+          <p style="color:var(--gray); font-size:0.9rem; margin:0;">Order in minutes, get delivery in under 30 minutes. Faster than you can say sabzi!</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div style="text-align:center; padding:28px 20px; background:white; border-radius:var(--radius); box-shadow:var(--shadow); transition:var(--transition);" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform=''">
+          <div style="font-size:3rem; margin-bottom:14px;">💚</div>
+          <h5 style="font-weight:800; margin-bottom:8px;">Best Prices</h5>
+          <p style="color:var(--gray); font-size:0.9rem; margin:0;">We promise the best market prices. No hidden charges, transparent pricing always.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section style="background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%); padding:50px 0;">
+  <div class="container text-center text-white">
+    <h2 style="font-family:var(--font-display); font-size:2rem; font-weight:800; margin-bottom:10px;">Ready to Order Fresh?</h2>
+    <p style="font-size:1.05rem; opacity:0.9; margin-bottom:24px;">Join 10,000+ happy customers. First delivery FREE!</p>
+    <a href="/products" style="background:white; color:var(--primary-dark); padding:14px 36px; border-radius:30px; font-weight:800; font-size:1rem; text-decoration:none; transition:all 0.3s; display:inline-block;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+      Shop Now 🛒
+    </a>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/main.js"></script>
+<style>
+@keyframes fadeInUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:none; } }
+@keyframes fadeInRight { from { opacity:0; transform:translateX(30px); } to { opacity:1; transform:none; } }
+</style>
+</body>
+</html>

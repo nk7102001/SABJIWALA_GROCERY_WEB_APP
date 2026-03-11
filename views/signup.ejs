@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<%- include('partials/navbar') %>
+
+<div class="auth-page">
+  <div class="container">
+    <div class="auth-card" style="max-width:520px;">
+      <div style="text-align:center; margin-bottom:28px;">
+        <div style="font-size:2.5rem; margin-bottom:8px;">🌱</div>
+        <div class="auth-card-title">Create Account</div>
+        <p style="color:var(--gray); font-size:0.95rem; margin:0;">Join SABJIWALA for fresh grocery delivery</p>
+      </div>
+
+      <form action="/auth/signup" method="POST">
+        <div style="margin-bottom:16px;">
+          <label class="form-label-green">👤 Full Name *</label>
+          <input type="text" name="name" class="form-control-green" placeholder="Your full name" required minlength="2">
+        </div>
+        <div style="margin-bottom:16px;">
+          <label class="form-label-green">📧 Email Address *</label>
+          <input type="email" name="email" class="form-control-green" placeholder="your@email.com" required>
+        </div>
+        <div style="margin-bottom:16px;">
+          <label class="form-label-green">📱 Phone (Optional)</label>
+          <input type="tel" name="phone" class="form-control-green" placeholder="Your phone number">
+        </div>
+        <div style="margin-bottom:16px;">
+          <label class="form-label-green">🔒 Password *</label>
+          <div style="position:relative;">
+            <input type="password" name="password" id="signupPassword" class="form-control-green" placeholder="Min 6 characters" required minlength="6">
+            <button type="button" onclick="togglePassword('signupPassword')" style="position:absolute; right:14px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:var(--gray); font-size:1.1rem;"><i class="bi bi-eye" id="signupPasswordIcon"></i></button>
+          </div>
+        </div>
+        <div style="margin-bottom:24px;">
+          <label class="form-label-green">🔒 Confirm Password *</label>
+          <input type="password" name="confirmPassword" class="form-control-green" placeholder="Confirm password" required>
+        </div>
+        <button type="submit" class="btn-primary-green w-100" style="padding:14px; font-size:1rem; justify-content:center;">
+          Create Account <i class="bi bi-person-check"></i>
+        </button>
+        <p style="font-size:0.78rem; color:var(--gray); text-align:center; margin-top:12px;">
+          By signing up, you agree to our Terms of Service and Privacy Policy.
+        </p>
+      </form>
+
+      <div style="text-align:center; margin-top:16px; padding-top:16px; border-top:1px solid var(--border);">
+        <p style="margin:0; font-size:0.9rem; color:var(--gray);">
+          Already have an account? <a href="/auth/login" style="color:var(--primary-dark); font-weight:700; text-decoration:none;">Login Here</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/main.js"></script>
+<script>
+function togglePassword(id) {
+  const input = document.getElementById(id);
+  const icon = document.getElementById(id + 'Icon');
+  if (input.type === 'password') { input.type = 'text'; icon.className = 'bi bi-eye-slash'; }
+  else { input.type = 'password'; icon.className = 'bi bi-eye'; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<%- include('layout-top') %>
+
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:28px; flex-wrap:wrap; gap:12px;">
+  <h2 style="font-family:var(--font-display); font-size:1.8rem; font-weight:800; margin:0;">Manage Products</h2>
+  <a href="/admin/products/add" class="btn-primary-green"><i class="bi bi-plus-circle"></i> Add Product</a>
+</div>
+
+<div class="admin-table">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Featured</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (products.length === 0) { %>
+      <tr><td colspan="7" style="text-align:center; padding:30px; color:var(--gray);">No products. <a href="/admin/products/add">Add one!</a></td></tr>
+      <% } %>
+      <% products.forEach(p => { %>
+      <tr>
+        <td><img src="<%= p.image %>" style="width:50px; height:50px; object-fit:cover; border-radius:8px; background:var(--primary-pale);"></td>
+        <td style="font-weight:700;"><%= p.name %></td>
+        <td><span style="background:var(--primary-pale); color:var(--primary-dark); padding:3px 10px; border-radius:12px; font-size:0.78rem; font-weight:700;"><%= p.category %></span></td>
+        <td style="font-weight:700; color:var(--primary-dark);">₹<%= p.price %></td>
+        <td>
+          <span style="background:<%= p.stock > 0 ? '#d4edda' : '#f8d7da' %>; color:<%= p.stock > 0 ? '#155724' : '#721c24' %>; padding:3px 10px; border-radius:12px; font-size:0.78rem; font-weight:700;">
+            <%= p.stock %>
+          </span>
+        </td>
+        <td><%= p.isFeatured ? '⭐' : '—' %></td>
+        <td>
+          <a href="/admin/products/edit/<%= p._id %>" class="btn-outline-green" style="padding:5px 12px; font-size:0.8rem; margin-right:6px;">
+            <i class="bi bi-pencil"></i>
+          </a>
+          <form action="/admin/products/delete/<%= p._id %>" method="POST" style="display:inline;" onsubmit="return confirm('Delete this product?')">
+            <button type="submit" style="background:#f8d7da; color:#721c24; border:1.5px solid #f5c6cb; padding:5px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer; font-weight:700;">
+              <i class="bi bi-trash3"></i>
+            </button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>

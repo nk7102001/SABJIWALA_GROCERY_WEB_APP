@@ -1,0 +1,66 @@
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <span class="brand-leaf">🌿</span>SABJI<span>WALA</span>
+    </a>
+
+    <div class="navbar-search d-none d-md-flex align-items-center ms-3">
+      <form action="/products" method="GET" class="position-relative">
+        <i class="bi bi-search search-icon"></i>
+        <input type="text" name="search" placeholder="Search vegetables, fruits..." value="<%= typeof search !== 'undefined' ? search : '' %>">
+      </form>
+    </div>
+
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-center gap-1">
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/products">Products</a></li>
+        <li class="nav-item">
+          <a class="nav-link" href="/cart">
+            <i class="bi bi-cart3"></i>
+            <span class="cart-badge cart-count-badge" style="display:<%= cartCount > 0 ? 'inline' : 'none' %>"><%= cartCount %></span>
+            Cart
+          </a>
+        </li>
+        <% if (currentUser) { %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+              <i class="bi bi-person-circle"></i> <%= currentUser.name.split(' ')[0] %>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+              <li><a class="dropdown-item fw-600" href="/dashboard"><i class="bi bi-speedometer2 me-2 text-success"></i>Dashboard</a></li>
+              <% if (isAdmin) { %>
+                <li><a class="dropdown-item fw-600" href="/admin"><i class="bi bi-shield-check me-2 text-warning"></i>Admin Panel</a></li>
+              <% } %>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item fw-600 text-danger" href="/auth/logout"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+            </ul>
+          </li>
+        <% } else { %>
+          <li class="nav-item">
+            <a class="btn-primary-green ms-2" href="/auth/login" style="padding:8px 20px; border-radius:25px;">Login</a>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Flash Messages -->
+<% if (flashMessages.success.length || flashMessages.error.length || flashMessages.info.length) { %>
+<div class="flash-container">
+  <% flashMessages.success.forEach(msg => { %>
+    <div class="flash-msg flash-success">✅ <%= msg %></div>
+  <% }) %>
+  <% flashMessages.error.forEach(msg => { %>
+    <div class="flash-msg flash-error">❌ <%= msg %></div>
+  <% }) %>
+  <% flashMessages.info.forEach(msg => { %>
+    <div class="flash-msg flash-info">ℹ️ <%= msg %></div>
+  <% }) %>
+</div>
+<% } %>

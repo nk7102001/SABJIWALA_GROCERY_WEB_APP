@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<%- include('partials/navbar') %>
+
+<div class="page-header">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div>
+        <h1>
+          <% if (selectedCategory !== 'All') { %>🥦 <%= selectedCategory %>
+          <% } else if (search) { %>🔍 Results for "<%= search %>"
+          <% } else { %>🛒 All Products<% } %>
+        </h1>
+        <p style="margin:4px 0 0; color:var(--gray); font-weight:500;"><%= products.length %> items found</p>
+      </div>
+      <!-- Sort dropdown -->
+      <form method="GET" action="/products" id="filter-form">
+        <input type="hidden" name="search" value="<%= search %>">
+        <input type="hidden" name="category" value="<%= selectedCategory %>">
+        <select name="sort" class="form-select" style="border:2px solid var(--border); border-radius:25px; font-family:var(--font-body); font-weight:600; min-width:180px;" onchange="document.getElementById('filter-form').submit()">
+          <option value="" <%= sort==='' ? 'selected':'' %>>Sort: Default</option>
+          <option value="price_asc" <%= sort==='price_asc' ? 'selected':'' %>>Price: Low to High</option>
+          <option value="price_desc" <%= sort==='price_desc' ? 'selected':'' %>>Price: High to Low</option>
+          <option value="name" <%= sort==='name' ? 'selected':'' %>>Name: A-Z</option>
+        </select>
+      </form>
+    </div>
+  </div>
+</div>
+
+<section style="background:var(--light); padding:40px 0;">
+  <div class="container">
+    <div class="row g-4">
+      <!-- Sidebar Filters -->
+      <div class="col-lg-3">
+        <div style="background:white; border-radius:var(--radius); border:1.5px solid var(--border); padding:20px; position:sticky; top:90px;">
+          <h6 style="font-weight:800; margin-bottom:16px; color:var(--secondary);">🔧 Filter by Category</h6>
+          <% categories.forEach(cat => { %>
+            <a href="/products?category=<%= cat %>&sort=<%= sort %>"
+               style="display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-radius:var(--radius-sm); margin-bottom:4px; text-decoration:none; font-weight:600; font-size:0.9rem; transition:var(--transition); background:<%= selectedCategory === cat ? 'var(--primary-pale)' : 'transparent' %>; color:<%= selectedCategory === cat ? 'var(--primary-dark)' : 'var(--secondary)' %>; border:<%= selectedCategory === cat ? '1.5px solid var(--primary)' : '1.5px solid transparent' %>;">
+              <%= cat === 'All' ? '🛒' : cat === 'Vegetables' ? '🥦' : cat === 'Fruits' ? '🍎' : cat === 'Dairy' ? '🥛' : cat === 'Grains' ? '🌾' : cat === 'Snacks' ? '🍿' : '🧃' %>
+              <span style="flex:1; margin-left:8px;"><%= cat %></span>
+              <% if (selectedCategory === cat) { %><i class="bi bi-check2-circle"></i><% } %>
+            </a>
+          <% }) %>
+          <hr style="border-color:var(--border);">
+          <!-- Search -->
+          <h6 style="font-weight:800; margin-bottom:12px; color:var(--secondary);">🔍 Search</h6>
+          <form action="/products" method="GET">
+            <input type="hidden" name="category" value="<%= selectedCategory %>">
+            <div style="display:flex; border:2px solid var(--border); border-radius:25px; overflow:hidden; transition:var(--transition);" onfocusin="this.style.borderColor='var(--primary)'" onfocusout="this.style.borderColor='var(--border)'">
+              <input type="text" name="search" value="<%= search %>" placeholder="Search..." style="border:none; padding:8px 14px; flex:1; font-family:var(--font-body); font-size:0.88rem; outline:none;">
+              <button type="submit" style="background:var(--primary); border:none; color:white; padding:8px 14px; cursor:pointer;"><i class="bi bi-search"></i></button>
+            </div>
+          </form>
+          <% if (search || selectedCategory !== 'All') { %>
+          <a href="/products" style="display:block; text-align:center; margin-top:12px; font-size:0.85rem; font-weight:700; color:var(--danger); text-decoration:none;">✕ Clear Filters</a>
+          <% } %>
+        </div>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="col-lg-9">
+        <% if (products.length > 0) { %>
+        <div class="row g-3">
+          <% products.forEach(product => { %>
+          <div class="col-6 col-md-4">
+            <%- include('partials/product-card', { product }) %>
+          </div>
+          <% }) %>
+        </div>
+        <% } else { %>
+        <div class="empty-state" style="padding:80px 20px;">
+          <div class="empty-state-icon">🥦</div>
+          <h3>No products found</h3>
+          <p>Try adjusting your search or filters.</p>
+          <a href="/products" class="btn-primary-green">View All Products</a>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<%- include('partials/navbar') %>
+
+<div class="page-header">
+  <div class="container">
+    <h1>👤 My Dashboard</h1>
+    <p style="margin:4px 0 0; color:var(--gray); font-weight:500;">Welcome back, <%= user.name %>! 🌿</p>
+  </div>
+</div>
+
+<section style="background:var(--light); padding:40px 0; min-height:70vh;">
+  <div class="container">
+    <div class="row g-4">
+      <!-- Sidebar -->
+      <div class="col-lg-3">
+        <div class="dashboard-sidebar">
+          <div class="sidebar-header">
+            <div class="sidebar-avatar"><%= user.name.charAt(0).toUpperCase() %></div>
+            <div style="font-weight:800; font-size:1.05rem;"><%= user.name %></div>
+            <div style="font-size:0.82rem; opacity:0.85;"><%= user.email %></div>
+          </div>
+          <div class="sidebar-nav">
+            <button class="sidebar-nav-item active" data-tab="overview">
+              <i class="bi bi-speedometer2"></i> Overview
+            </button>
+            <button class="sidebar-nav-item" data-tab="orders">
+              <i class="bi bi-bag-check"></i> My Orders
+              <% if(orders.length > 0) { %><span style="background:var(--primary); color:white; font-size:0.72rem; padding:2px 8px; border-radius:12px; margin-left:auto;"><%= orders.length %></span><% } %>
+            </button>
+            <button class="sidebar-nav-item" data-tab="profile">
+              <i class="bi bi-person-circle"></i> Edit Profile
+            </button>
+            <button class="sidebar-nav-item" data-tab="address">
+              <i class="bi bi-geo-alt"></i> Saved Address
+            </button>
+            <hr style="border-color:var(--border);">
+            <a href="/auth/logout" class="sidebar-nav-item" style="color:var(--danger);">
+              <i class="bi bi-box-arrow-right"></i> Logout
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="col-lg-9">
+        <!-- Overview Tab -->
+        <div class="dashboard-tab active" id="tab-overview">
+          <div class="row g-3 mb-4">
+            <div class="col-md-4">
+              <div style="background:white; border-radius:var(--radius); padding:22px; box-shadow:var(--shadow); border-left:4px solid var(--primary); text-align:center;">
+                <div style="font-size:2rem; margin-bottom:8px;">🛒</div>
+                <div style="font-size:1.6rem; font-weight:900; font-family:var(--font-display); color:var(--primary-dark);"><%= orders.length %></div>
+                <div style="font-size:0.85rem; color:var(--gray); font-weight:600;">Total Orders</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div style="background:white; border-radius:var(--radius); padding:22px; box-shadow:var(--shadow); border-left:4px solid #3498db; text-align:center;">
+                <div style="font-size:2rem; margin-bottom:8px;">📦</div>
+                <div style="font-size:1.6rem; font-weight:900; font-family:var(--font-display); color:#3498db;"><%= orders.filter(o => o.status !== 'Delivered' && o.status !== 'Cancelled').length %></div>
+                <div style="font-size:0.85rem; color:var(--gray); font-weight:600;">Active Orders</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div style="background:white; border-radius:var(--radius); padding:22px; box-shadow:var(--shadow); border-left:4px solid #f39c12; text-align:center;">
+                <div style="font-size:2rem; margin-bottom:8px;">💰</div>
+                <div style="font-size:1.6rem; font-weight:900; font-family:var(--font-display); color:#f39c12;">₹<%= orders.reduce((s,o) => s + o.totalPrice, 0).toFixed(0) %></div>
+                <div style="font-size:0.85rem; color:var(--gray); font-weight:600;">Total Spent</div>
+              </div>
+            </div>
+          </div>
+          <!-- Recent Orders -->
+          <div style="background:white; border-radius:var(--radius); padding:24px; box-shadow:var(--shadow); border:1.5px solid var(--border);">
+            <h5 style="font-weight:800; margin-bottom:16px;">Recent Orders</h5>
+            <% if (orders.length === 0) { %>
+            <div class="empty-state" style="padding:32px 20px;">
+              <div class="empty-state-icon" style="font-size:2.5rem;">🛒</div>
+              <p style="color:var(--gray); margin:8px 0 16px;">No orders yet.</p>
+              <a href="/products" class="btn-primary-green" style="font-size:0.9rem;">Shop Now</a>
+            </div>
+            <% } else { %>
+              <% orders.slice(0,3).forEach(order => { %>
+              <div class="order-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                  <div>
+                    <span style="font-weight:800; font-size:0.9rem;">Order #<%= order._id.toString().slice(-8).toUpperCase() %></span>
+                    <span style="display:block; font-size:0.8rem; color:var(--gray);"><%= new Date(order.createdAt).toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'}) %></span>
+                  </div>
+                  <span class="order-status status-<%= order.status.replace(/ /g,'.') %>"><%= order.status %></span>
+                </div>
+                <div style="font-size:0.88rem; color:var(--gray); margin-bottom:6px;"><%= order.items.length %> items · ₹<%= order.totalPrice.toFixed(0) %></div>
+              </div>
+              <% }) %>
+            <% } %>
+          </div>
+        </div>
+
+        <!-- Orders Tab -->
+        <div class="dashboard-tab" id="tab-orders">
+          <div style="background:white; border-radius:var(--radius); padding:24px; box-shadow:var(--shadow); border:1.5px solid var(--border);">
+            <h5 style="font-weight:800; margin-bottom:20px;">All Orders</h5>
+            <% if (orders.length === 0) { %>
+            <div class="empty-state" style="padding:40px 20px;">
+              <div class="empty-state-icon" style="font-size:2.5rem;">📦</div>
+              <h3 style="font-size:1.3rem;">No orders yet</h3>
+              <a href="/products" class="btn-primary-green">Start Shopping</a>
+            </div>
+            <% } else { %>
+              <% orders.forEach(order => { %>
+              <div class="order-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+                  <div>
+                    <span style="font-weight:800;">Order #<%= order._id.toString().slice(-8).toUpperCase() %></span>
+                    <span style="display:block; font-size:0.82rem; color:var(--gray);">
+                      <i class="bi bi-calendar3 me-1"></i><%= new Date(order.createdAt).toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'}) %>
+                    </span>
+                  </div>
+                  <span class="order-status status-<%= order.status.replace(/ /g,'.') %>"><%= order.status %></span>
+                </div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
+                  <% order.items.forEach(item => { %>
+                  <span style="background:var(--primary-pale); color:var(--primary-dark); padding:4px 10px; border-radius:12px; font-size:0.8rem; font-weight:600;"><%= item.name %> ×<%= item.quantity %></span>
+                  <% }) %>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                  <div style="font-size:0.85rem; color:var(--gray);"><i class="bi bi-geo-alt me-1"></i><%= order.address.city %>, <%= order.address.state %></div>
+                  <div style="font-weight:800; color:var(--primary-dark);">Total: ₹<%= order.totalPrice.toFixed(0) %></div>
+                </div>
+              </div>
+              <% }) %>
+            <% } %>
+          </div>
+        </div>
+
+        <!-- Profile Tab -->
+        <div class="dashboard-tab" id="tab-profile">
+          <div style="background:white; border-radius:var(--radius); padding:32px; box-shadow:var(--shadow); border:1.5px solid var(--border);">
+            <h5 style="font-weight:800; margin-bottom:24px;">Edit Profile</h5>
+            <form action="/dashboard/update-profile" method="POST">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label-green">Full Name</label>
+                  <input type="text" name="name" class="form-control-green" value="<%= user.name %>" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label-green">Phone</label>
+                  <input type="tel" name="phone" class="form-control-green" value="<%= user.phone || '' %>">
+                </div>
+                <div class="col-12">
+                  <label class="form-label-green">Email (Read Only)</label>
+                  <input type="email" class="form-control-green" value="<%= user.email %>" style="background:var(--gray-light);" readonly>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn-primary-green" style="padding:12px 28px;">
+                    <i class="bi bi-check2"></i> Save Changes
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Address Tab -->
+        <div class="dashboard-tab" id="tab-address">
+          <div style="background:white; border-radius:var(--radius); padding:32px; box-shadow:var(--shadow); border:1.5px solid var(--border);">
+            <h5 style="font-weight:800; margin-bottom:24px;">Saved Address</h5>
+            <form action="/dashboard/update-profile" method="POST">
+              <input type="hidden" name="name" value="<%= user.name %>">
+              <div class="row g-3">
+                <div class="col-12">
+                  <label class="form-label-green">Street Address</label>
+                  <input type="text" name="street" class="form-control-green" value="<%= user.address && user.address.street ? user.address.street : '' %>" placeholder="Street address, area...">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label-green">City</label>
+                  <input type="text" name="city" class="form-control-green" value="<%= user.address && user.address.city ? user.address.city : '' %>" placeholder="City">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label-green">State</label>
+                  <input type="text" name="state" class="form-control-green" value="<%= user.address && user.address.state ? user.address.state : '' %>" placeholder="State">
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label-green">Pincode</label>
+                  <input type="text" name="pincode" class="form-control-green" value="<%= user.address && user.address.pincode ? user.address.pincode : '' %>" placeholder="110001">
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn-primary-green" style="padding:12px 28px;">
+                    <i class="bi bi-geo-alt"></i> Save Address
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<%- include('partials/navbar') %>
+
+<section style="padding:50px 0; background:var(--light);">
+  <div class="container">
+    <!-- Breadcrumb -->
+    <nav style="margin-bottom:24px;">
+      <a href="/" style="color:var(--gray); text-decoration:none; font-size:0.9rem;">Home</a>
+      <span style="color:var(--gray); margin:0 8px;">/</span>
+      <a href="/products" style="color:var(--gray); text-decoration:none; font-size:0.9rem;">Products</a>
+      <span style="color:var(--gray); margin:0 8px;">/</span>
+      <span style="color:var(--primary-dark); font-weight:600; font-size:0.9rem;"><%= product.name %></span>
+    </nav>
+
+    <div class="row g-5">
+      <div class="col-md-5">
+        <div style="background:white; border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); border:1.5px solid var(--border); position:relative;">
+          <img src="<%= product.image %>" alt="<%= product.name %>" style="width:100%; height:380px; object-fit:cover;">
+          <% if (product.discount > 0) { %>
+            <div style="position:absolute; top:16px; left:16px; background:var(--danger); color:white; padding:6px 14px; border-radius:20px; font-weight:700; font-size:0.85rem;"><%= product.discount %>% OFF</div>
+          <% } %>
+          <% if (product.stock <= 0) { %>
+            <div style="position:absolute; inset:0; background:rgba(255,255,255,0.75); display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--danger); font-size:1.2rem;">Out of Stock</div>
+          <% } %>
+        </div>
+      </div>
+      <div class="col-md-7">
+        <div style="background:white; border-radius:var(--radius); padding:32px; box-shadow:var(--shadow); border:1.5px solid var(--border);">
+          <span style="background:var(--primary-pale); color:var(--primary-dark); padding:4px 14px; border-radius:20px; font-size:0.8rem; font-weight:700;"><%= product.category %></span>
+          <h1 style="font-family:var(--font-display); font-size:2rem; font-weight:800; margin:14px 0 6px;"><%= product.name %></h1>
+          <p style="color:var(--gray); font-size:0.9rem; margin-bottom:20px;">per <%= product.unit %></p>
+
+          <div style="display:flex; align-items:center; gap:14px; margin-bottom:20px;">
+            <span style="font-size:2.2rem; font-weight:900; color:var(--primary-dark); font-family:var(--font-display);">₹<%= product.price %></span>
+            <% if (product.originalPrice && product.originalPrice > product.price) { %>
+              <span style="font-size:1.1rem; color:var(--gray); text-decoration:line-through;">₹<%= product.originalPrice %></span>
+              <span style="background:#fef9e7; color:var(--accent); padding:4px 12px; border-radius:12px; font-size:0.85rem; font-weight:700;">Save <%= product.discount %>%</span>
+            <% } %>
+          </div>
+
+          <p style="color:var(--gray); font-size:0.95rem; line-height:1.6; margin-bottom:24px;"><%= product.description || 'Fresh and quality product.' %></p>
+
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:24px; flex-wrap:wrap;">
+            <div class="qty-control" style="border-width:2px; border-radius:10px;">
+              <button class="qty-btn qty-minus" data-id="<%= product._id %>">−</button>
+              <input class="qty-input" id="qty-<%= product._id %>" type="number" value="1" min="1" max="<%= product.stock %>" style="width:50px; font-size:1.1rem;">
+              <button class="qty-btn qty-plus" data-id="<%= product._id %>">+</button>
+            </div>
+            <button class="btn-primary-green add-to-cart-btn"
+                    data-id="<%= product._id %>"
+                    style="padding:12px 32px; font-size:1rem;"
+                    <% if (product.stock <= 0) { %>disabled<% } %>>
+              <i class="bi bi-cart-plus"></i>
+              <% if (product.stock <= 0) { %>Out of Stock<% } else { %>Add to Cart<% } %>
+            </button>
+            <a href="/cart" class="btn-outline-green" style="padding:12px 24px; font-size:1rem;">
+              <i class="bi bi-bag"></i> Buy Now
+            </a>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div style="background:var(--primary-pale); border-radius:var(--radius-sm); padding:14px; text-align:center;">
+              <div style="font-size:1.4rem;">🚚</div>
+              <div style="font-size:0.82rem; font-weight:700; color:var(--primary-dark); margin-top:4px;">Fast Delivery</div>
+            </div>
+            <div style="background:var(--primary-pale); border-radius:var(--radius-sm); padding:14px; text-align:center;">
+              <div style="font-size:1.4rem;">✅</div>
+              <div style="font-size:0.82rem; font-weight:700; color:var(--primary-dark); margin-top:4px;">Quality Assured</div>
+            </div>
+            <div style="background:var(--primary-pale); border-radius:var(--radius-sm); padding:14px; text-align:center;">
+              <div style="font-size:1.4rem;">🔄</div>
+              <div style="font-size:0.82rem; font-weight:700; color:var(--primary-dark); margin-top:4px;">Easy Returns</div>
+            </div>
+            <div style="background:var(--primary-pale); border-radius:var(--radius-sm); padding:14px; text-align:center;">
+              <div style="font-size:1.4rem;">📦</div>
+              <div style="font-size:0.82rem; font-weight:700; color:var(--primary-dark); margin-top:4px;">Stock: <%= product.stock > 0 ? product.stock + ' left' : 'None' %></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Products -->
+    <% if (related.length > 0) { %>
+    <div style="margin-top:60px;">
+      <h2 class="section-title">Related Products</h2>
+      <div class="section-divider"></div>
+      <div class="row g-3">
+        <% related.forEach(p => { %>
+        <div class="col-6 col-md-3">
+          <%- include('partials/product-card', { product: p }) %>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>
