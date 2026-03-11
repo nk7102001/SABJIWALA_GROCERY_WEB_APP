@@ -25,14 +25,6 @@ http://localhost:3000
 
 ---
 
-## 🔐 Login Credentials
-
-| Role  | Email                    | Password  |
-|-------|--------------------------|-----------|
-| Admin | admin@sabjiwala.com      | admin123  |
-| User  | Register at /auth/signup | any       |
-
----
 
 ## 📂 Project Structure
 
