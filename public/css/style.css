@@ -136,7 +136,7 @@ body {
 /*  HERO SECTION */
 .hero-section {
   background: linear-gradient(135deg, #eafaf1 0%, #d5f5e3 50%, #a9dfbf 100%);
-  padding: 80px 0 60px;
+  padding: 20px 0 60px;
   position: relative;
   overflow: hidden;
 }
@@ -1111,7 +1111,7 @@ footer a:hover { color: var(--primary); padding-left: 4px; }
 
 @media (max-width: 768px) {
   .hero-title { font-size: 1.9rem; }
-  .hero-section { padding: 50px 0 40px; }
+  .hero-section { padding: 20px 0 40px; }
   .cart-item { flex-wrap: wrap; }
   .auth-card { padding: 28px 20px; }
   section { padding: 44px 0; }
