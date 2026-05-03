@@ -1,7 +1,4 @@
-/* ================================
-   SABJIWALA - Main Stylesheet
-   Fresh Green & White Theme
-================================ */
+
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap');
 
@@ -42,9 +39,7 @@ body {
 ::-webkit-scrollbar-track { background: var(--gray-light); }
 ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
 
-/* ==============================
-   NAVBAR
-============================== */
+/*NAVBAR */
 .navbar {
   background: var(--white) !important;
   box-shadow: 0 2px 20px rgba(46,204,113,0.10);
@@ -138,9 +133,7 @@ body {
   color: var(--gray);
 }
 
-/* ==============================
-   HERO SECTION
-============================== */
+/*  HERO SECTION */
 .hero-section {
   background: linear-gradient(135deg, #eafaf1 0%, #d5f5e3 50%, #a9dfbf 100%);
   padding: 80px 0 60px;
@@ -310,9 +303,7 @@ body {
   font-family: var(--font-display);
 }
 
-/* ==============================
-   SECTIONS
-============================== */
+/* SECTIONS*/
 section { padding: 60px 0; }
 
 .section-title {
@@ -338,9 +329,7 @@ section { padding: 60px 0; }
   margin: 10px 0 36px;
 }
 
-/* ==============================
-   CATEGORY CARDS
-============================== */
+/* CATEGORY CARD */
 .category-section { background: var(--light); }
 
 .category-card {
@@ -387,9 +376,7 @@ section { padding: 60px 0; }
   font-weight: 500;
 }
 
-/* ==============================
-   PRODUCT CARDS
-============================== */
+/*  PRODUCT CARDS*/
 .product-card {
   background: white;
   border-radius: var(--radius);
@@ -553,9 +540,7 @@ section { padding: 60px 0; }
 
 .qty-input:focus { outline: none; }
 
-/* ==============================
-   BUTTONS
-============================== */
+/*  BUTTONS */
 .btn-primary-green {
   background: var(--primary);
   color: white;
@@ -610,9 +595,7 @@ section { padding: 60px 0; }
   text-decoration: none;
 }
 
-/* ==============================
-   FLASH MESSAGES
-============================== */
+/* FLASH MESSAGES */
 .flash-container {
   position: fixed;
   top: 80px;
@@ -643,9 +626,7 @@ section { padding: 60px 0; }
   to { opacity: 1; transform: translateX(0); }
 }
 
-/* ==============================
-   CART PAGE
-============================== */
+/*  CART PAGE */
 .cart-item {
   background: white;
   border: 1.5px solid var(--border);
@@ -710,9 +691,7 @@ section { padding: 60px 0; }
   margin-bottom: 16px;
 }
 
-/* ==============================
-   AUTH PAGES
-============================== */
+/* AUTH PAGES */
 .auth-page {
   min-height: calc(100vh - 140px);
   display: flex;
@@ -764,9 +743,7 @@ section { padding: 60px 0; }
   display: block;
 }
 
-/* ==============================
-   DASHBOARD
-============================== */
+/* DASHBOARD */
 .dashboard-sidebar {
   background: white;
   border: 1.5px solid var(--border);
@@ -851,9 +828,7 @@ section { padding: 60px 0; }
 .status-Delivered { background: #d4edda; color: #155724; }
 .status-Cancelled { background: #f8d7da; color: #721c24; }
 
-/* ==============================
-   ADMIN PANEL
-============================== */
+/* ADMIN PANEL */
 .admin-sidebar {
   background: var(--secondary);
   min-height: 100vh;
@@ -946,9 +921,7 @@ section { padding: 60px 0; }
   border-color: var(--gray-light);
 }
 
-/* ==============================
-   FOOTER
-============================== */
+/* FOOTER */
 footer {
   background: var(--secondary);
   color: rgba(255,255,255,0.8);
@@ -1054,9 +1027,7 @@ footer a:hover { color: var(--primary); padding-left: 4px; }
 
 .feature-item span { font-size: 1.3rem; }
 
-/* ==============================
-   EMPTY STATE
-============================== */
+/* EMPTY STATE */
 .empty-state {
   text-align: center;
   padding: 60px 20px;
@@ -1090,9 +1061,7 @@ footer a:hover { color: var(--primary); padding-left: 4px; }
   margin: 0;
 }
 
-/* ==============================
-   RESPONSIVE
-============================== */
+/*  RESPONSIVE */
 @media (max-width: 992px) {
   .hero-title { font-size: 2.4rem; }
   .hero-image-wrapper { margin-top: 36px; }

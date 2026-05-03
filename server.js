@@ -12,6 +12,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/sabjiwala
   .then(() => {
     console.log('✅ Connected to MongoDB');
     seedDatabase();
+    ensureAdmin();
   })
   .catch(err => console.error('❌ MongoDB connection error:', err));
 
@@ -29,7 +30,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'sabjiwala_secret',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 } // 7 days
+  cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 }
 }));
 
 // Flash messages
@@ -94,10 +95,31 @@ app.listen(PORT, () => {
   console.log(`👤 Admin: http://localhost:${PORT}/admin`);
 });
 
+// Ensure admin always exists
+async function ensureAdmin() {
+  const User = require('./models/User');
+  try {
+    const adminExists = await User.findOne({ email: 'admin@sabjiwala.com' });
+    if (!adminExists) {
+      const admin = new User({
+        name: 'Admin',
+        email: 'admin@sabjiwala.com',
+        password: 'admin123',
+        role: 'admin'
+      });
+      await admin.save();
+      console.log('✅ Admin created: admin@sabjiwala.com / admin123');
+    } else {
+      console.log('✅ Admin already exists');
+    }
+  } catch (err) {
+    console.error('❌ Admin creation error:', err);
+  }
+}
+
 // Seed database with sample products
 async function seedDatabase() {
   const Product = require('./models/Product');
-  const User = require('./models/User');
   const count = await Product.countDocuments();
   if (count > 0) return;
 
@@ -128,17 +150,4 @@ async function seedDatabase() {
 
   await Product.insertMany(products);
   console.log(`✅ ${products.length} products seeded!`);
-
-  // Create admin user
-  const adminExists = await User.findOne({ email: 'admin@sabjiwala.com' });
-  if (!adminExists) {
-    const admin = new User({
-      name: 'Admin',
-      email: 'admin@sabjiwala.com',
-      password: 'admin123',
-      role: 'admin'
-    });
-    await admin.save();
-    console.log('✅ Admin user created: admin@sabjiwala.com / admin123');
-  }
 }

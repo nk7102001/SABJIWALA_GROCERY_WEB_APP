@@ -2,6 +2,42 @@
 
 A full-stack Instamart-style grocery delivery web application built with Node.js, Express, MongoDB, and EJS.
 
+🔗 **Live Demo:** https://sabjiwala-grocery.onrender.com
+🐙 **GitHub:** https://github.com/nk7102001/sabjiwala
+
+---
+
+## Screenshots
+
+### Home Page
+![Home](screenshots/Home.png)
+
+### Navigation
+![Nav](screenshots/nav.png)
+
+### Categories
+![Categories](screenshots/categories.png)
+
+### Products Page
+![Products](screenshots/products.png)
+
+### Why Choose Us
+![Why](screenshots/Why.png)
+
+### Admin Panel
+![Admin](screenshots/admin.png)
+
+### Manage Products
+![Manage Products](screenshots/manage_products.png)
+
+### Add Products
+![Add Products](screenshots/add_products.png)
+
+### Manage Orders
+![Manage Orders](screenshots/manage_orders.png)
+
+---
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -20,8 +56,6 @@ node server.js
 # 3. Open in browser
 http://localhost:3000
 ```
-
-> **Note:** The database is automatically seeded with 20 sample products and an admin user on first run!
 
 ---
 
@@ -93,3 +127,14 @@ sabjiwala/
 - **Secondary:** #27ae60 (Dark Green)
 - **Background:** White
 - **Fonts:** Playfair Display (headings) + Nunito (body)
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend** — EJS, HTML5, CSS3, JavaScript, Bootstrap 5
+- **Backend** — Node.js, Express.js, MVC Architecture
+- **Database** — MongoDB Atlas, Mongoose
+- **Auth** — JWT, bcryptjs, express-session
+- **Deployment** — Render
+- **Tools** — Git, GitHub, Postman
