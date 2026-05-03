@@ -34,7 +34,7 @@
   <div class="col-6 col-lg-3">
     <div class="admin-stat-card" style="border-left-color:#f39c12;">
       <div class="admin-stat-icon">💰</div>
-      <div class="admin-stat-number">₹<%= revenue.toFixed(0) %></div>
+      <div class="admin-stat-number">₹<%= (revenue || 0).toFixed(0) %></div>
       <div style="color:var(--gray); font-weight:600; font-size:0.88rem;">Total Revenue</div>
     </div>
   </div>
@@ -65,7 +65,7 @@
       <tr>
         <td style="font-weight:700;">#<%= order._id.toString().slice(-8).toUpperCase() %></td>
         <td><%= order.user ? order.user.name : 'N/A' %></td>
-        <td style="font-weight:700; color:var(--primary-dark);">₹<%= order.totalPrice.toFixed(0) %></td>
+        <td style="font-weight:700; color:var(--primary-dark);">₹<%= (order.totalPrice || 0).toFixed(0) %></td>
         <td><span class="order-status status-<%= order.status.replace(/ /g,'.') %>"><%= order.status %></span></td>
         <td style="font-size:0.85rem;"><%= new Date(order.createdAt).toLocaleDateString('en-IN') %></td>
       </tr>
