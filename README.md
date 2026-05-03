@@ -3,7 +3,7 @@
 A full-stack Instamart-style grocery delivery web application built with Node.js, Express, MongoDB, and EJS.
 
 🔗 **Live Demo:** https://sabjiwala-grocery.onrender.com
-🐙 **GitHub:** https://github.com/nk7102001/sabjiwala
+🐙 **GitHub:** https://github.com/nk7102001/SABJIWALA_GROCERY_WEB_APP
 
 ---
 
