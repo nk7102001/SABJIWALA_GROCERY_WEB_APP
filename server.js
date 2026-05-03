@@ -110,7 +110,13 @@ async function ensureAdmin() {
       await admin.save();
       console.log('✅ Admin created: admin@sabjiwala.com / admin123');
     } else {
-      console.log('✅ Admin already exists');
+      // Force update role to admin
+      await User.findOneAndUpdate(
+        { email: 'admin@sabjiwala.com' },
+        { role: 'admin' },
+        { new: true }
+      );
+      console.log('✅ Admin role updated!');
     }
   } catch (err) {
     console.error('❌ Admin creation error:', err);
