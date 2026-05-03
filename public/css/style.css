@@ -1126,23 +1126,31 @@ footer a:hover { color: var(--primary); padding-left: 4px; }
   .hero-badge { font-size: 0.72rem; padding: 4px 8px; gap: 3px; }
 }
 
-/* PRODUCT BUTTON */
 @media (max-width: 480px) {
-  .btn-text {
+
+  /* ONLY product card buttons */
+  .product-card .btn-text {
     display: none;
   }
 
-  .btn-primary-green {
+  .product-card .btn-primary-green {
     padding: 6px;
     font-size: 0;
   }
 
-  .btn-primary-green i {
+  .product-card .btn-primary-green i {
     font-size: 16px;
   }
 
-  .btn-primary-green.added::after {
+  .product-card .btn-primary-green.added::after {
     content: "✔";
     font-size: 16px;
   }
+
+}
+
+.btn-primary-green,
+.btn-primary-green:hover,
+.btn-primary-green:focus {
+  text-decoration: none;
 }
