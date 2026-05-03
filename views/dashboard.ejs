@@ -22,7 +22,6 @@
 <section style="background:var(--light); padding:40px 0; min-height:70vh;">
   <div class="container">
     <div class="row g-4">
-      <!-- Sidebar -->
       <div class="col-lg-3">
         <div class="dashboard-sidebar">
           <div class="sidebar-header">
@@ -52,9 +51,7 @@
         </div>
       </div>
 
-      <!-- Main Content -->
       <div class="col-lg-9">
-        <!-- Overview Tab -->
         <div class="dashboard-tab active" id="tab-overview">
           <div class="row g-3 mb-4">
             <div class="col-md-4">
@@ -74,12 +71,11 @@
             <div class="col-md-4">
               <div style="background:white; border-radius:var(--radius); padding:22px; box-shadow:var(--shadow); border-left:4px solid #f39c12; text-align:center;">
                 <div style="font-size:2rem; margin-bottom:8px;">💰</div>
-                <div style="font-size:1.6rem; font-weight:900; font-family:var(--font-display); color:#f39c12;">₹<%= orders.reduce((s,o) => s + o.totalPrice, 0).toFixed(0) %></div>
+                <div style="font-size:1.6rem; font-weight:900; font-family:var(--font-display); color:#f39c12;">₹<%= orders.reduce((s,o) => s + (o.totalPrice || 0), 0).toFixed(0) %></div>
                 <div style="font-size:0.85rem; color:var(--gray); font-weight:600;">Total Spent</div>
               </div>
             </div>
           </div>
-          <!-- Recent Orders -->
           <div style="background:white; border-radius:var(--radius); padding:24px; box-shadow:var(--shadow); border:1.5px solid var(--border);">
             <h5 style="font-weight:800; margin-bottom:16px;">Recent Orders</h5>
             <% if (orders.length === 0) { %>
@@ -98,14 +94,13 @@
                   </div>
                   <span class="order-status status-<%= order.status.replace(/ /g,'.') %>"><%= order.status %></span>
                 </div>
-                <div style="font-size:0.88rem; color:var(--gray); margin-bottom:6px;"><%= order.items.length %> items · ₹<%= order.totalPrice.toFixed(0) %></div>
+                <div style="font-size:0.88rem; color:var(--gray); margin-bottom:6px;"><%= order.items.length %> items · ₹<%= (order.totalPrice || 0).toFixed(0) %></div>
               </div>
               <% }) %>
             <% } %>
           </div>
         </div>
 
-        <!-- Orders Tab -->
         <div class="dashboard-tab" id="tab-orders">
           <div style="background:white; border-radius:var(--radius); padding:24px; box-shadow:var(--shadow); border:1.5px solid var(--border);">
             <h5 style="font-weight:800; margin-bottom:20px;">All Orders</h5>
@@ -134,7 +129,7 @@
                 </div>
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
                   <div style="font-size:0.85rem; color:var(--gray);"><i class="bi bi-geo-alt me-1"></i><%= order.address.city %>, <%= order.address.state %></div>
-                  <div style="font-weight:800; color:var(--primary-dark);">Total: ₹<%= order.totalPrice.toFixed(0) %></div>
+                  <div style="font-weight:800; color:var(--primary-dark);">Total: ₹<%= (order.totalPrice || 0).toFixed(0) %></div>
                 </div>
               </div>
               <% }) %>
@@ -142,7 +137,6 @@
           </div>
         </div>
 
-        <!-- Profile Tab -->
         <div class="dashboard-tab" id="tab-profile">
           <div style="background:white; border-radius:var(--radius); padding:32px; box-shadow:var(--shadow); border:1.5px solid var(--border);">
             <h5 style="font-weight:800; margin-bottom:24px;">Edit Profile</h5>
@@ -170,7 +164,6 @@
           </div>
         </div>
 
-        <!-- Address Tab -->
         <div class="dashboard-tab" id="tab-address">
           <div style="background:white; border-radius:var(--radius); padding:32px; box-shadow:var(--shadow); border:1.5px solid var(--border);">
             <h5 style="font-weight:800; margin-bottom:24px;">Saved Address</h5>

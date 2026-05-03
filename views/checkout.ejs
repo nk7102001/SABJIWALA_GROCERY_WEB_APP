@@ -88,7 +88,7 @@
               <% }) %>
             </div>
             <div class="order-summary-row">
-              <span>Subtotal</span><span>₹<%= subtotal.toFixed(0) %></span>
+              <span>Subtotal</span><span>₹<%= (subtotal || 0).toFixed(0) %></span>
             </div>
             <div class="order-summary-row">
               <span>Delivery</span>
@@ -97,7 +97,7 @@
               </span>
             </div>
             <div class="order-summary-row total">
-              <span>Total</span><span>₹<%= total.toFixed(0) %></span>
+              <span>Total</span><span>₹<%= (total || 0).toFixed(0) %></span>
             </div>
             <button type="submit" class="btn-primary-green w-100 mt-3" style="padding:14px; font-size:1rem; justify-content:center;">
               <i class="bi bi-bag-check"></i> Place Order

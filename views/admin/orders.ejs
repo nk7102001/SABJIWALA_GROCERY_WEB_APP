@@ -32,7 +32,8 @@
           <% }) %>
           <% if (order.items.length > 2) { %><div style="font-size:0.78rem; color:var(--gray);">+<%= order.items.length - 2 %> more</div><% } %>
         </td>
-        <td style="font-weight:800; color:var(--primary-dark);">₹<%= order.totalPrice.toFixed(0) %></td>
+       <td style="font-weight:800; color:var(--primary-dark);">₹<%= (order.totalPrice || 0).toFixed(0) %></td>
+
         <td style="font-size:0.85rem;"><%= new Date(order.createdAt).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'}) %></td>
         <td><span class="order-status status-<%= order.status.replace(/ /g,'.') %>"><%= order.status %></span></td>
         <td>

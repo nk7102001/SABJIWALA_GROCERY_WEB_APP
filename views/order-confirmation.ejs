@@ -47,7 +47,7 @@
         <div style="margin-top:16px; padding-top:12px; border-top:2px solid var(--border);">
           <div style="display:flex; justify-content:space-between; font-weight:800; font-size:1.1rem; color:var(--primary-dark);">
             <span>Total Paid</span>
-            <span>₹<%= order.totalPrice.toFixed(0) %></span>
+            <span>₹<%= (order.totalPrice || 0).toFixed(0) %></span>
           </div>
           <div style="margin-top:8px; font-size:0.85rem; color:var(--gray);">
             <i class="bi bi-geo-alt me-1"></i><%= order.address.street %>, <%= order.address.city %>, <%= order.address.state %> - <%= order.address.pincode %>
