@@ -202,7 +202,6 @@ body {
   border-radius: 50px;
   box-shadow: 0 4px 24px rgba(46,204,113,0.18);
   max-width: 520px;
-  width: 100%;
   border: 2px solid var(--border);
   transition: var(--transition);
 }
@@ -512,22 +511,25 @@ section { padding: 60px 0; }
 
 .product-actions {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   align-items: center;
+   min-width: 0;  
 }
 
 .qty-control {
-  display: inline-flex;
+  display: flex;          /* inline-flex hatao */
   align-items: center;
   border: 1.5px solid var(--border);
   border-radius: 25px;
   height: 38px;
+  flex: 0 1 auto;  
+  max-width: 110px;       /* 🔥 IMPORTANT */
 }
 
 .qty-btn {
   background: none;
   border: none;
-  padding: 0 10px;
+  padding: 4px 8px;
   height: 100%;
   font-size: 1.1rem;
   cursor: pointer;
@@ -545,17 +547,20 @@ section { padding: 60px 0; }
 
 .qty-input {
   border: none;
-  width: 32px;
-  height: 100%;
+  width: 36px;              /* 🔥 thoda kam karo */
+  height: 100%;             /* ok hai, but optional */
   text-align: center;
   font-weight: 700;
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: 0.9rem;        /* 🔥 thoda adjust */
   padding: 0;
   margin: 0;
+  
   -moz-appearance: textfield;
   appearance: textfield;
   background: transparent;
+
+  min-width: 0;             /* 🔥 overflow fix */
 }
 
 .qty-input::-webkit-outer-spin-button,
@@ -571,17 +576,24 @@ section { padding: 60px 0; }
   background: var(--primary);
   color: white;
   border: none;
-  padding: 10px 22px;
+  padding: 8px 12px;        /* 🔥 padding kam karo */
   border-radius: 25px;
   font-weight: 700;
   font-family: var(--font-body);
   cursor: pointer;
   transition: var(--transition);
-  font-size: 0.9rem;
-  display: inline-flex;
+  font-size: 0.85rem;       /* 🔥 thoda chhota */
+  
+  display: flex;            /* 🔥 inline-flex → flex */
   align-items: center;
+  justify-content: center;  /* 🔥 center content */
   gap: 6px;
-  text-decoration: none;
+
+  flex: 1;                  /* 🔥 remaining space le */
+  min-width: 0; 
+   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;            /* 🔥 overflow fix */
 }
 
 .btn-primary-green:hover {
@@ -1088,6 +1100,8 @@ footer a:hover { color: var(--primary); padding-left: 4px; }
 }
 
 /*  RESPONSIVE */
+
+
 @media (max-width: 992px) {
   .hero-title { font-size: 2.4rem; }
   .hero-image-wrapper { margin-top: 36px; }
@@ -1103,10 +1117,32 @@ footer a:hover { color: var(--primary); padding-left: 4px; }
   section { padding: 44px 0; }
   .navbar-search input { width: 200px; }
 }
+
 @media (max-width: 576px) {
   .hero-title { font-size: 1.6rem; }
   .navbar-search { display: none; }
   .hero-badges { gap: 6px; }
   .hero-stat-card { display: none; }
   .hero-badge { font-size: 0.72rem; padding: 4px 8px; gap: 3px; }
+}
+
+/* PRODUCT BUTTON */
+@media (max-width: 480px) {
+  .btn-text {
+    display: none;
+  }
+
+  .btn-primary-green {
+    padding: 6px;
+    font-size: 0;
+  }
+
+  .btn-primary-green i {
+    font-size: 16px;
+  }
+
+  .btn-primary-green.added::after {
+    content: "✔";
+    font-size: 16px;
+  }
 }
