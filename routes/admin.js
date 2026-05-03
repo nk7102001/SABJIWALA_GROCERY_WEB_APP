@@ -31,8 +31,13 @@ router.get('/', isAdmin, async (req, res) => {
 
 // GET /admin/products
 router.get('/products', isAdmin, async (req, res) => {
-  const products = await Product.find().sort({ createdAt: -1 });
-  res.render('admin/products', { title: 'Manage Products - SABJIWALA', products });
+  try {
+    const products = await Product.find().sort({ createdAt: -1 });
+    res.render('admin/products', { title: 'Manage Products - SABJIWALA', products });
+  } catch (err) {
+    req.flash('error', 'Could not load products.');
+    res.redirect('/admin');
+  }
 });
 
 // GET /admin/products/add
@@ -91,14 +96,23 @@ router.post('/products/delete/:id', isAdmin, async (req, res) => {
 
 // GET /admin/orders
 router.get('/orders', isAdmin, async (req, res) => {
-  const orders = await Order.find().populate('user').sort({ createdAt: -1 });
-  res.render('admin/orders', { title: 'All Orders - SABJIWALA', orders });
+  try {
+    const orders = await Order.find().populate('user').sort({ createdAt: -1 });
+    res.render('admin/orders', { title: 'All Orders - SABJIWALA', orders });
+  } catch (err) {
+    req.flash('error', 'Could not load orders.');
+    res.redirect('/admin');
+  }
 });
 
 // POST /admin/orders/update-status/:id
 router.post('/orders/update-status/:id', isAdmin, async (req, res) => {
-  await Order.findByIdAndUpdate(req.params.id, { status: req.body.status });
-  req.flash('success', 'Order status updated!');
+  try {
+    await Order.findByIdAndUpdate(req.params.id, { status: req.body.status });
+    req.flash('success', 'Order status updated!');
+  } catch (err) {
+    req.flash('error', 'Could not update order status.');
+  }
   res.redirect('/admin/orders');
 });
 

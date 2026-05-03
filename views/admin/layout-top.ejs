@@ -11,8 +11,17 @@
 </head>
 <body style="background:var(--gray-light);">
 
+<!-- Mobile Admin Top Bar -->
+<div class="d-flex d-lg-none align-items-center justify-content-between px-3 py-2" style="background:var(--secondary); position:sticky; top:0; z-index:200;">
+  <div style="font-family:var(--font-display); font-size:1.1rem; font-weight:800; color:var(--primary);">🌿 SABJIWALA Admin</div>
+  <button id="adminSidebarToggle" style="background:none; border:none; color:white; font-size:1.6rem; cursor:pointer;"><i class="bi bi-list"></i></button>
+</div>
+
+<!-- Overlay for mobile -->
+<div id="adminOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:150;"></div>
+
 <!-- Admin Sidebar -->
-<div class="admin-sidebar">
+<div class="admin-sidebar" id="adminSidebar">
   <div class="admin-brand">🌿 SABJIWALA<br><small style="font-size:0.65rem; opacity:0.65; font-family:var(--font-body); font-weight:500;">Admin Panel</small></div>
   <a href="/admin" class="admin-nav-item"><i class="bi bi-speedometer2"></i> Dashboard</a>
   <a href="/admin/products" class="admin-nav-item"><i class="bi bi-bag"></i> Products</a>
@@ -25,7 +34,7 @@
 </div>
 
 <!-- Main Content -->
-<div class="admin-content">
+<div class="admin-content" id="adminContent">
   <!-- Flash -->
   <% if (flashMessages && (flashMessages.success.length || flashMessages.error.length)) { %>
   <div class="flash-container" style="position:relative; top:0; right:0; max-width:100%; margin-bottom:20px;">

@@ -35,7 +35,7 @@
        <td style="font-weight:800; color:var(--primary-dark);">₹<%= (order.totalPrice || 0).toFixed(0) %></td>
 
         <td style="font-size:0.85rem;"><%= new Date(order.createdAt).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'}) %></td>
-        <td><span class="order-status status-<%= order.status.replace(/ /g,'.') %>"><%= order.status %></span></td>
+        <td><span class="order-status status-<%= order.status.replace(/ /g,'-') %>"><%= order.status %></span></td>
         <td>
           <form action="/admin/orders/update-status/<%= order._id %>" method="POST" style="display:flex; gap:6px; align-items:center;">
             <select name="status" class="form-select form-select-sm" style="font-size:0.8rem; border:1.5px solid var(--border); border-radius:var(--radius-sm); min-width:130px;">
@@ -50,10 +50,10 @@
       <% }) %>
     </tbody>
   </table>
-</div>
-
-</div>
+</div><!-- end admin-table -->
+</div><!-- end admin-content -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/main.js"></script>
+<script src="/js/admin.js"></script>
 </body>
 </html>

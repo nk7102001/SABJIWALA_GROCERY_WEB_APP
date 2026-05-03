@@ -3,61 +3,40 @@
     <a href="/products/<%= product._id %>">
       <img src="<%= product.image %>" alt="<%= product.name %>" loading="lazy">
     </a>
-
     <% if (product.discount > 0) { %>
       <span class="product-badge"><%= product.discount %>% OFF</span>
     <% } %>
-
     <% if (product.isFeatured) { %>
       <span class="product-badge featured" style="top:auto; bottom:10px; left:10px;">⭐ Featured</span>
     <% } %>
-
     <% if (product.stock <= 0) { %>
       <div class="out-of-stock-overlay">Out of Stock</div>
     <% } %>
   </div>
-
   <div class="product-body">
     <div class="product-category-tag"><%= product.category %></div>
-
     <a href="/products/<%= product._id %>" style="text-decoration:none; color:inherit;">
       <div class="product-name"><%= product.name %></div>
     </a>
-
     <div class="product-unit">per <%= product.unit %></div>
-
     <div class="product-price">
       <span class="price-current">₹<%= product.price %></span>
       <% if (product.originalPrice && product.originalPrice > product.price) { %>
         <span class="price-original">₹<%= product.originalPrice %></span>
       <% } %>
     </div>
-
     <div class="product-actions">
-
-      <!-- Qty -->
       <div class="qty-control">
         <button class="qty-btn qty-minus" data-id="<%= product._id %>">−</button>
         <input class="qty-input" id="qty-<%= product._id %>" type="number" value="1" min="1" max="<%= product.stock %>">
         <button class="qty-btn qty-plus" data-id="<%= product._id %>">+</button>
       </div>
-
-      <!-- Button -->
-      <button class="btn-primary-green flex-1 add-to-cart-btn"
+      <button class="btn-primary-green add-to-cart-btn"
               data-id="<%= product._id %>"
-              style="justify-content:center; font-size:0.82rem; padding:8px 10px;"
               <% if (product.stock <= 0) { %>disabled<% } %>>
-
-        <% if (product.stock > 0) { %>
-          <i class="bi bi-cart-plus"></i>
-        <% } %>
-
-        <span class="btn-text">
-          <% if (product.stock <= 0) { %>Out of Stock<% } else { %>Add<% } %>
-        </span>
-
+        <i class="bi bi-cart-plus"></i>
+        <% if (product.stock <= 0) { %>Out of Stock<% } else { %>Add<% } %>
       </button>
-
     </div>
   </div>
 </div>

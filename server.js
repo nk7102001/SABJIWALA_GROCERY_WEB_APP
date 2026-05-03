@@ -109,14 +109,12 @@ async function ensureAdmin() {
       });
       await admin.save();
       console.log('✅ Admin created: admin@sabjiwala.com / admin123');
-    } else {
-      // Force update role to admin
-      await User.findOneAndUpdate(
-        { email: 'admin@sabjiwala.com' },
-        { role: 'admin' },
-        { new: true }
-      );
+    } else if (adminExists.role !== 'admin') {
+      adminExists.role = 'admin';
+      await adminExists.save();
       console.log('✅ Admin role updated!');
+    } else {
+      console.log('✅ Admin already exists.');
     }
   } catch (err) {
     console.error('❌ Admin creation error:', err);
@@ -132,26 +130,26 @@ async function seedDatabase() {
   console.log('🌱 Seeding database with sample products...');
 
   const products = [
-    { name: 'Fresh Tomatoes', description: 'Farm fresh, juicy red tomatoes. Rich in vitamins and antioxidants.', price: 40, originalPrice: 55, image: 'https://images.unsplash.com/photo-1546470427-e26264be0b0d?w=400&q=80', category: 'Vegetables', unit: 'kg', stock: 150, isFeatured: true, discount: 27 },
-    { name: 'Potatoes', description: 'Premium quality potatoes, perfect for all your cooking needs.', price: 25, originalPrice: 30, image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&q=80', category: 'Vegetables', unit: 'kg', stock: 200, isFeatured: true, discount: 17 },
-    { name: 'Onions', description: 'Fresh, aromatic onions that enhance every dish.', price: 30, originalPrice: 40, image: 'https://images.unsplash.com/photo-1508747703725-719777637510?w=400&q=80', category: 'Vegetables', unit: 'kg', stock: 180, isFeatured: false, discount: 25 },
-    { name: 'Carrots', description: 'Crunchy, sweet orange carrots. High in beta-carotene.', price: 45, originalPrice: 55, image: 'https://images.unsplash.com/photo-1445282768818-728615cc910a?w=400&q=80', category: 'Vegetables', unit: 'kg', stock: 120, isFeatured: true, discount: 18 },
-    { name: 'Cabbage', description: 'Crispy green cabbage, fresh from the farm.', price: 35, originalPrice: 45, image: 'https://images.unsplash.com/photo-1594282486552-05b4d80fbb9f?w=400&q=80', category: 'Vegetables', unit: 'piece', stock: 80, isFeatured: false, discount: 22 },
-    { name: 'Spinach', description: 'Fresh green spinach, packed with iron and vitamins.', price: 20, originalPrice: 28, image: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=400&q=80', category: 'Vegetables', unit: 'bunch', stock: 100, isFeatured: true, discount: 29 },
-    { name: 'Green Peas', description: 'Sweet and tender green peas, freshly harvested.', price: 60, originalPrice: 75, image: 'https://images.unsplash.com/photo-1587735243615-c03f25aaff15?w=400&q=80', category: 'Vegetables', unit: 'kg', stock: 90, isFeatured: false, discount: 20 },
-    { name: 'Bananas', description: 'Ripe, sweet yellow bananas. A powerhouse of energy.', price: 50, originalPrice: 60, image: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&q=80', category: 'Fruits', unit: 'dozen', stock: 150, isFeatured: true, discount: 17 },
-    { name: 'Apples (Red)', description: 'Crispy Shimla apples, sweet and refreshing.', price: 180, originalPrice: 220, image: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&q=80', category: 'Fruits', unit: 'kg', stock: 100, isFeatured: true, discount: 18 },
-    { name: 'Oranges', description: 'Juicy, vitamin C-rich oranges. Perfect for fresh juice.', price: 80, originalPrice: 100, image: 'https://images.unsplash.com/photo-1547514701-42782101795e?w=400&q=80', category: 'Fruits', unit: 'kg', stock: 120, isFeatured: false, discount: 20 },
-    { name: 'Mangoes', description: 'Sweet Alphonso mangoes - the king of fruits!', price: 250, originalPrice: 300, image: 'https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?w=400&q=80', category: 'Fruits', unit: 'kg', stock: 70, isFeatured: true, discount: 17 },
-    { name: 'Full Cream Milk', description: 'Fresh, pasteurized full cream milk. Rich in calcium.', price: 60, originalPrice: 65, image: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&q=80', category: 'Dairy', unit: 'litre', stock: 200, isFeatured: true, discount: 8 },
-    { name: 'Paneer', description: 'Fresh homemade-style paneer. Soft and creamy.', price: 120, originalPrice: 140, image: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&q=80', category: 'Dairy', unit: '200g', stock: 80, isFeatured: false, discount: 14 },
-    { name: 'Curd (Dahi)', description: 'Thick and creamy dahi, made from fresh milk.', price: 45, originalPrice: 50, image: 'https://images.unsplash.com/photo-1488477181228-c84cae1b2d1f?w=400&q=80', category: 'Dairy', unit: '500g', stock: 150, isFeatured: false, discount: 10 },
-    { name: 'Whole Wheat Bread', description: 'Fresh baked whole wheat bread, soft and nutritious.', price: 45, originalPrice: 52, image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&q=80', category: 'Grains', unit: 'loaf', stock: 60, isFeatured: true, discount: 13 },
-    { name: 'Basmati Rice', description: 'Premium long-grain basmati rice with beautiful aroma.', price: 120, originalPrice: 145, image: 'https://images.unsplash.com/photo-1536304993881-ff86e0c9ef1b?w=400&q=80', category: 'Grains', unit: 'kg', stock: 200, isFeatured: false, discount: 17 },
-    { name: 'Moong Dal', description: 'High-protein yellow moong dal, easy to cook.', price: 95, originalPrice: 115, image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80', category: 'Grains', unit: 'kg', stock: 150, isFeatured: false, discount: 17 },
-    { name: 'Potato Chips', description: 'Crispy salted potato chips, perfect snack.', price: 30, originalPrice: 35, image: 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=400&q=80', category: 'Snacks', unit: 'pack', stock: 200, isFeatured: false, discount: 14 },
-    { name: 'Mixed Nuts', description: 'Premium mix of almonds, cashews, and walnuts.', price: 450, originalPrice: 520, image: 'https://images.unsplash.com/photo-1545540921-81c6e6eac31d?w=400&q=80', category: 'Snacks', unit: '250g', stock: 80, isFeatured: true, discount: 13 },
-    { name: 'Orange Juice', description: 'Fresh pressed 100% natural orange juice. No added sugar.', price: 85, originalPrice: 100, image: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=400&q=80', category: 'Beverages', unit: 'litre', stock: 100, isFeatured: false, discount: 15 }
+    { name: 'Fresh Tomatoes', description: 'Farm fresh, juicy red tomatoes. Rich in vitamins and antioxidants.', price: 40, originalPrice: 55, image: 'https://images.unsplash.com/photo-1546470427-e26264be0b0d?auto=format&fit=crop&w=400&q=80', category: 'Vegetables', unit: 'kg', stock: 150, isFeatured: true, discount: 27 },
+    { name: 'Potatoes', description: 'Premium quality potatoes, perfect for all your cooking needs.', price: 25, originalPrice: 30, image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=400&q=80', category: 'Vegetables', unit: 'kg', stock: 200, isFeatured: true, discount: 17 },
+    { name: 'Onions', description: 'Fresh, aromatic onions that enhance every dish.', price: 30, originalPrice: 40, image: 'https://images.unsplash.com/photo-1508747703725-719777637510?auto=format&fit=crop&w=400&q=80', category: 'Vegetables', unit: 'kg', stock: 180, isFeatured: false, discount: 25 },
+    { name: 'Carrots', description: 'Crunchy, sweet orange carrots. High in beta-carotene.', price: 45, originalPrice: 55, image: 'https://images.unsplash.com/photo-1445282768818-728615cc910a?auto=format&fit=crop&w=400&q=80', category: 'Vegetables', unit: 'kg', stock: 120, isFeatured: true, discount: 18 },
+    { name: 'Cabbage', description: 'Crispy green cabbage, fresh from the farm.', price: 35, originalPrice: 45, image: 'https://images.unsplash.com/photo-1594282486552-05b4d80fbb9f?auto=format&fit=crop&w=400&q=80', category: 'Vegetables', unit: 'piece', stock: 80, isFeatured: false, discount: 22 },
+    { name: 'Spinach', description: 'Fresh green spinach, packed with iron and vitamins.', price: 20, originalPrice: 28, image: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=400&q=80', category: 'Vegetables', unit: 'bunch', stock: 100, isFeatured: true, discount: 29 },
+    { name: 'Green Peas', description: 'Sweet and tender green peas, freshly harvested.', price: 60, originalPrice: 75, image: 'https://images.unsplash.com/photo-1587735243615-c03f25aaff15?auto=format&fit=crop&w=400&q=80', category: 'Vegetables', unit: 'kg', stock: 90, isFeatured: false, discount: 20 },
+    { name: 'Bananas', description: 'Ripe, sweet yellow bananas. A powerhouse of energy.', price: 50, originalPrice: 60, image: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=400&q=80', category: 'Fruits', unit: 'dozen', stock: 150, isFeatured: true, discount: 17 },
+    { name: 'Apples (Red)', description: 'Crispy Shimla apples, sweet and refreshing.', price: 180, originalPrice: 220, image: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=400&q=80', category: 'Fruits', unit: 'kg', stock: 100, isFeatured: true, discount: 18 },
+    { name: 'Oranges', description: 'Juicy, vitamin C-rich oranges. Perfect for fresh juice.', price: 80, originalPrice: 100, image: 'https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=400&q=80', category: 'Fruits', unit: 'kg', stock: 120, isFeatured: false, discount: 20 },
+    { name: 'Mangoes', description: 'Sweet Alphonso mangoes - the king of fruits!', price: 250, originalPrice: 300, image: 'https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?auto=format&fit=crop&w=400&q=80', category: 'Fruits', unit: 'kg', stock: 70, isFeatured: true, discount: 17 },
+    { name: 'Full Cream Milk', description: 'Fresh, pasteurized full cream milk. Rich in calcium.', price: 60, originalPrice: 65, image: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=400&q=80', category: 'Dairy', unit: 'litre', stock: 200, isFeatured: true, discount: 8 },
+    { name: 'Paneer', description: 'Fresh homemade-style paneer. Soft and creamy.', price: 120, originalPrice: 140, image: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=400&q=80', category: 'Dairy', unit: '200g', stock: 80, isFeatured: false, discount: 14 },
+    { name: 'Curd (Dahi)', description: 'Thick and creamy dahi, made from fresh milk.', price: 45, originalPrice: 50, image: 'https://images.unsplash.com/photo-1488477181228-c84cae1b2d1f?auto=format&fit=crop&w=400&q=80', category: 'Dairy', unit: '500g', stock: 150, isFeatured: false, discount: 10 },
+    { name: 'Whole Wheat Bread', description: 'Fresh baked whole wheat bread, soft and nutritious.', price: 45, originalPrice: 52, image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=400&q=80', category: 'Grains', unit: 'loaf', stock: 60, isFeatured: true, discount: 13 },
+    { name: 'Basmati Rice', description: 'Premium long-grain basmati rice with beautiful aroma.', price: 120, originalPrice: 145, image: 'https://images.unsplash.com/photo-1536304993881-ff86e0c9ef1b?auto=format&fit=crop&w=400&q=80', category: 'Grains', unit: 'kg', stock: 200, isFeatured: false, discount: 17 },
+    { name: 'Moong Dal', description: 'High-protein yellow moong dal, easy to cook.', price: 95, originalPrice: 115, image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=400&q=80', category: 'Grains', unit: 'kg', stock: 150, isFeatured: false, discount: 17 },
+    { name: 'Potato Chips', description: 'Crispy salted potato chips, perfect snack.', price: 30, originalPrice: 35, image: 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?auto=format&fit=crop&w=400&q=80', category: 'Snacks', unit: 'pack', stock: 200, isFeatured: false, discount: 14 },
+    { name: 'Mixed Nuts', description: 'Premium mix of almonds, cashews, and walnuts.', price: 450, originalPrice: 520, image: 'https://images.unsplash.com/photo-1545540921-81c6e6eac31d?auto=format&fit=crop&w=400&q=80', category: 'Snacks', unit: '250g', stock: 80, isFeatured: true, discount: 13 },
+    { name: 'Orange Juice', description: 'Fresh pressed 100% natural orange juice. No added sugar.', price: 85, originalPrice: 100, image: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?auto=format&fit=crop&w=400&q=80', category: 'Beverages', unit: 'litre', stock: 100, isFeatured: false, discount: 15 }
   ];
 
   await Product.insertMany(products);

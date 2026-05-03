@@ -70,7 +70,7 @@ router.post('/place', isLoggedIn, async (req, res) => {
 router.get('/:id', isLoggedIn, async (req, res) => {
   try {
     const order = await Order.findById(req.params.id).populate('user');
-    if (!order || order.user._id.toString() !== req.session.userId.toString()) {
+    if (!order || !order.user || order.user._id.toString() !== req.session.userId.toString()) {
       req.flash('error', 'Order not found.');
       return res.redirect('/dashboard');
     }
